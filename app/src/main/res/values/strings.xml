@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">oyo</string>
+    <string name="verify_info_1" >A 6-Digit Verification Code will be sent via SMS\n
+    to verify your mobile number</string>
+    <string name="verify_info_2">No Verification Code required for Login</string>
+</resources>
