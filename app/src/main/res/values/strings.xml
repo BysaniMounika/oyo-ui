@@ -1,6 +1,50 @@
 <resources>
     <string name="app_name">oyo</string>
-    <string name="verify_info_1" >A 6-Digit Verification Code will be sent via SMS\n
+    <string name="verify_info_1">A 6-Digit Verification Code will be sent via SMS\n
     to verify your mobile number</string>
     <string name="verify_info_2">No Verification Code required for Login</string>
+    <string-array name="countries_list">
+        <item>Afghanistan</item>
+        <item>Albania</item>
+        <item>Algeria</item>
+        <item>American Samoa</item>
+        <item>Andorra</item>
+        <item>Angola</item>
+        <item>Anguilla</item>
+        <item>Antigua and Barbuda</item>
+        <item>Argentina</item>
+        <item>Armenia</item>
+        <item>Aruba</item>
+        <item>Austria</item>
+        <item>Azerbaijan</item>
+        <item>Bahamas</item>
+        <item>Bahrain</item>
+        <item>Bangladesh</item>
+        <item>Barbados</item>
+        <item>Belarus</item>
+        <item>Belgium</item>
+        <item>Belize</item>
+    </string-array>
+    <string-array name="countries_code_list">
+        <item>+93</item>
+        <item>+355</item>
+        <item>+213</item>
+        <item>+1684</item>
+        <item>+376</item>
+        <item>+244</item>
+        <item>+1264</item>
+        <item>+1268</item>
+        <item>+54</item>
+        <item>+374</item>
+        <item>+297</item>
+        <item>+43</item>
+        <item>+994</item>
+        <item>+1</item>
+        <item>+973</item>
+        <item>+880</item>
+        <item>+1246</item>
+        <item>+375</item>
+        <item>+32</item>
+        <item>+501</item>
+    </string-array>
 </resources>

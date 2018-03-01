@@ -39,15 +39,57 @@
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/linear_layout_in_activity_first_run_second_background">
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/flag_img"
-            android:layout_width="4dp"
-            android:layout_height="3dp" />
+            android:layout_width="20dp"
+            android:layout_height="20dp" />-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:onClick="getDialog">
+            <ImageView
+                android:id="@+id/flag_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/india"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:id="@+id/spin_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="3dp"
+                android:layout_alignRight="@id/flag_img"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+            <TextView
+                android:id="@+id/country_code"
+                android:layout_alignRight="@id/spin_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+91"/>
+        </LinearLayout>
+<!-->
+        <Spinner
+            android:id="@+id/country_code_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>-->
+<!--
         <Spinner
             android:id="@+id/country_code_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        </Spinner>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/spinner_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+        </Spinner>-->
         <EditText
             android:id="@+id/editText_phone"
             android:layout_width="wrap_content"
@@ -56,7 +98,8 @@
             android:background="@android:color/transparent"
             android:paddingRight="10sp"
             android:textSize="15dp"
-            android:hint="Mobile Number" />
+            android:hint="Mobile Number"
+            android:onClick="changeBackground"/>
         <Button
             android:id="@+id/button_verify"
             android:layout_width="wrap_content"
@@ -76,7 +119,8 @@
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:text="@string/verify_info_1"
-        android:textColor="#9E9E9E"/>
+        android:textColor="#9E9E9E"
+        android:onClick="verify"/>
 
     <RelativeLayout
         android:id="@+id/horizon_bar_or"

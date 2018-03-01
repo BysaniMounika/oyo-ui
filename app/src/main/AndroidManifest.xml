@@ -18,12 +18,15 @@
         </activity>
         <activity
             android:name=".FirstRunOneActivity"
-            android:theme="@style/FirstRumTheme"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FirstRunSecondActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FirstRumTheme" />
+        <activity
+            android:name=".FirstRunSecondActivity"
             android:label=" "
-            android:theme="@style/FirstRumTheme"
-            android:parentActivityName=".FirstRunOneActivity"></activity>
+            android:parentActivityName=".FirstRunOneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FirstRumTheme" />
+        <activity android:name=".FirstRunThirdActivity"></activity>
     </application>
 
 </manifest>
