@@ -2,11 +2,13 @@ package com.example.android.oyo;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,8 +18,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,8 +48,13 @@ public class FirstRunSecondActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     SpinnerRecyclerViewAdapter adapter;
     public static TextView mCountryCode;
+    public EditText mPhoneNumber;
     public static ImageView mFlagImage;
     LinearLayout mUserInput;
+    RelativeLayout mLayout;
+    public static final String EXTRA_MESSAGE =
+            "com.example.android.oyo.extra.MESSAGE";
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -73,6 +82,8 @@ public class FirstRunSecondActivity extends AppCompatActivity {
         mCountryCode = (TextView) findViewById(R.id.country_code);
         mFlagImage = (ImageView) findViewById(R.id.flag_img);
         mUserInput = (LinearLayout)findViewById(R.id.user_input_in_frsa) ;
+        mPhoneNumber = (EditText) findViewById(R.id.editText_phone) ;
+        mLayout = (RelativeLayout) findViewById(R.id.first_run_second_activity) ;
 
         countryNames = Arrays.asList(getResources().getStringArray(R.array.countries_list));
         code = Arrays.asList(getResources().getStringArray(R.array.countries_code_list));
@@ -92,6 +103,7 @@ public class FirstRunSecondActivity extends AppCompatActivity {
        // CustomAdapter customAdapter=new CustomAdapter(getApplicationContext(),countryNames, code);
         //spin.setAdapter(customAdapter);
 
+
     }
 
     public void getDialog(View view) {
@@ -103,7 +115,37 @@ public class FirstRunSecondActivity extends AppCompatActivity {
     }
 
     public void verify(View view) {
-        Intent intent = new Intent(this,FirstRunThirdActivity.class);
-        startActivity(intent);
+
+        InputMethodManager mImMan = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mImMan.hideSoftInputFromWindow(mPhoneNumber.getWindowToken(), 0);
+
+        String PhoneNumber = mPhoneNumber.getText().toString();
+
+        if(PhoneNumber.length() == 0){
+            mUserInput.setBackground(getResources().getDrawable(R.drawable.error_phone_number));
+            Snackbar snackbar= Snackbar.make(mLayout,"Enter phone number",Snackbar.LENGTH_SHORT);
+            View snackBarView = snackbar.getView();
+            snackBarView.setBackgroundColor(getResources().getColor(R.color.errorSnackBarColor));
+            TextView mSnackBarTextView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+            mSnackBarTextView.setTextAlignment(snackBarView.TEXT_ALIGNMENT_CENTER);
+            snackbar.show();
+        }
+        else if(PhoneNumber.length() != 10) {
+            mUserInput.setBackground(getResources().getDrawable(R.drawable.error_phone_number));
+            Snackbar snackbar= Snackbar.make(mLayout,"Enter valid Phone Number",Snackbar.LENGTH_SHORT);
+            View snackBarView = snackbar.getView();
+            snackBarView.setBackgroundColor(getResources().getColor(R.color.errorSnackBarColor));
+            TextView mSnackBarTextView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+            mSnackBarTextView.setTextAlignment(snackBarView.TEXT_ALIGNMENT_CENTER);
+            snackbar.show();
+        }
+        else {
+            String message = mCountryCode.getText() + " " + mPhoneNumber.getText();
+            Intent intent = new Intent(this, FirstRunThirdActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
+        }
     }
+
+
 }

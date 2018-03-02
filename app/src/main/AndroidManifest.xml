@@ -26,7 +26,12 @@
             android:parentActivityName=".FirstRunOneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FirstRumTheme" />
-        <activity android:name=".FirstRunThirdActivity"></activity>
+        <activity android:name=".FirstRunThirdActivity"
+            android:label=" "
+            android:parentActivityName=".FirstRunSecondActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FirstRumTheme"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>
