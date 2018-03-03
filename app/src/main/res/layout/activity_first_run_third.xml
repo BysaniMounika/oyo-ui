@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/first_run_third_activity"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -154,10 +155,12 @@
             android:layout_height="40dp"
             android:textSize="12sp"
             android:gravity="center"
+            android:paddingLeft="10dp"
             android:hint="Enter 6 digit code"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:inputType="number"
             android:background="@drawable/enter_code_background"/>
         <TextView
@@ -167,7 +170,6 @@
             android:text="Resend Code"
             android:textSize="12sp"
             android:textColor="#FFCDD2"
-            android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"/>
     </LinearLayout>
 
@@ -181,7 +183,8 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:onClick="createAccount"/>
 
     <TextView
         android:id="@+id/text_view_agree_policy"

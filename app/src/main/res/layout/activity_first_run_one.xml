@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_first_run_one"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context="com.example.android.oyo.FirstRunOneActivity"
     android:orientation="vertical"
     android:background="@drawable/background_color_1"
@@ -13,8 +13,9 @@
 
     <TextView
         android:id="@+id/oyo"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="OYO"
         android:textColor="#FFFFFF"
         android:textSize="60sp"
@@ -97,4 +98,5 @@
         android:paddingRight="40sp"
         android:paddingLeft="40sp"
         android:visibility="gone" />
+
 </android.support.design.widget.CoordinatorLayout>

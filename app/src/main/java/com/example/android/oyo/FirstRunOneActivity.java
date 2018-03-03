@@ -82,13 +82,15 @@ public class FirstRunOneActivity extends AppCompatActivity {
         mTxt2 = (TextView)findViewById(R.id.txt2);
         mGetStartedBtn = (Button) findViewById(R.id.get_started);
        mParentFirstRunOne = (CoordinatorLayout) findViewById(R.id.parent_first_run_one);
+
         //mGetStartedBtn.setY(0.83f*getScreenHeight());
        // mSceneContainer = (RelativeLayout) findViewById(R.id.scene_container);
         final Animation ctt = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.center_to_top);
         final LayoutAnimationController mLayoutAnim = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_animation_from_bottom);
         final LayoutAnimationController animation1 = AnimationUtils.loadLayoutAnimation(FirstRunOneActivity.this, R.anim.layout_animation_from_bottom);
-        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/xpressiveblackregular.ttf");
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/anagram.ttf");
         oyoTextView.setTypeface(custom_font);
+        oyoTextView.setLetterSpacing(-0.09f);
         Animation zoom = AnimationUtils.loadAnimation(this,R.anim.zoom);
         zoom.setFillAfter(true);
         zoom.setAnimationListener(new Animation.AnimationListener() {

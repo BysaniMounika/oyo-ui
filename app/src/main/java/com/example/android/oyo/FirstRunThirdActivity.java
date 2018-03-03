@@ -5,11 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
 import android.os.CountDownTimer;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Html;
+import android.text.InputFilter;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,9 +24,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
@@ -39,10 +48,14 @@ public class FirstRunThirdActivity extends AppCompatActivity {
     private EditText mEditTextName;
     private EditText mEditTextSixDigitCode;
     private EditText mEditTextReferralCode;
+    LinearLayout mLayout;
 
     Boolean isDeny;
     Boolean isFirstRunThird;
     Boolean isAllow;
+
+    public static final String EXTRA_MESSAGE =
+            "com.example.android.oyo.extra.MESSAGE";
 
 
     @Override
@@ -82,7 +95,34 @@ public class FirstRunThirdActivity extends AppCompatActivity {
         mEditTextSixDigitCode = (EditText) findViewById(R.id.edit_text_6_digit_code) ;
         mEditTextReferralCode = (EditText) findViewById(R.id.edit_text_referral_code) ;
 
+        mLayout = (LinearLayout) findViewById(R.id.first_run_third_activity) ;
+
         mTextViewAgreePolicy.setText(Html.fromHtml(getResources().getString(R.string.agree)));
+
+        mEditTextSixDigitCode.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
+        mEditTextSixDigitCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mEditTextSixDigitCode.setPaddingRelative(0, 0, 0, 0);
+                mEditTextSixDigitCode.setLetterSpacing(1);
+                mEditTextSixDigitCode.setTextSize(20);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(mEditTextSixDigitCode.length() == 0) {
+                    mEditTextSixDigitCode.setPadding(10, 0, 0, 0);
+                    mEditTextSixDigitCode.setLetterSpacing(0);
+                    mEditTextSixDigitCode.setTextSize(12);
+                }
+            }
+        });
+
 
         new CountDownTimer(120000, 1000) {
 
@@ -152,7 +192,7 @@ public class FirstRunThirdActivity extends AppCompatActivity {
         isAllow = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isAllow", false);
 
-        if (isFirstRunThird) {
+        if (isFirstRunThird  || (!isDeny && !isAllow)) {
             //show start activity
             AlertDialog.Builder myAlertBuilder = new AlertDialog.Builder(this);
             myAlertBuilder.setIcon(R.drawable.ic_textsms_black_24dp);
@@ -162,6 +202,18 @@ public class FirstRunThirdActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                                     .putBoolean("isAllow", true).commit();
+
+                            mTimer.setVisibility(mTimer.GONE);
+                            mResendCode.setVisibility(mResendCode.GONE);
+                            new Timer().schedule(new TimerTask(){
+                                public void run() {
+                                    FirstRunThirdActivity.this.runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            mEditTextSixDigitCode.setText("589764");
+                                        }
+                                    });
+                                }
+                            }, 3000);
                         }
                     });
             myAlertBuilder.setNegativeButton("DENY", new
@@ -214,6 +266,23 @@ public class FirstRunThirdActivity extends AppCompatActivity {
                     // btnAdd1 has been clicked
                     getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                             .putBoolean("isAllow", true).commit();
+
+                    getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                            .putBoolean("isDeny", false).commit();
+
+                    alertD.cancel();
+
+                    mTimer.setVisibility(mTimer.GONE);
+                    mResendCode.setVisibility(mResendCode.GONE);
+                    new Timer().schedule(new TimerTask(){
+                        public void run() {
+                            FirstRunThirdActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    mEditTextSixDigitCode.setText("589764");
+                                }
+                            });
+                        }
+                    }, 3000);
                 }
             });
 
@@ -226,6 +295,16 @@ public class FirstRunThirdActivity extends AppCompatActivity {
 
         if(isAllow) {
             mTimer.setVisibility(mTimer.GONE);
+            mResendCode.setVisibility(mResendCode.GONE);
+            new Timer().schedule(new TimerTask(){
+                public void run() {
+                    FirstRunThirdActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            mEditTextSixDigitCode.setText("589764");
+                        }
+                    });
+                }
+            }, 3000);
         }
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRunThird", false).commit();
@@ -244,5 +323,68 @@ public class FirstRunThirdActivity extends AppCompatActivity {
         Intent intent = new Intent(this,FirstRunSecondActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void createAccount(View view) {
+
+        InputMethodManager mImMan = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mImMan.hideSoftInputFromWindow(mEditTextEmail.getWindowToken(), 0);
+
+        mImMan.hideSoftInputFromWindow(mEditTextName.getWindowToken(), 0);
+
+        mImMan.hideSoftInputFromWindow(mEditTextReferralCode.getWindowToken(), 0);
+
+        mImMan.hideSoftInputFromWindow(mEditTextSixDigitCode.getWindowToken(), 0);
+
+        String email = mEditTextEmail.getText().toString();
+        String name = mEditTextName.getText().toString();
+        String otp = mEditTextSixDigitCode.getText().toString();
+
+        boolean correctEmail = !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+
+        if(!correctEmail) {
+            mEditTextEmail.setBackground(getResources().getDrawable(R.drawable.error_phone_number));
+            Snackbar snackbar= Snackbar.make(mLayout,"Please provide a valid email",Snackbar.LENGTH_SHORT);
+            View snackBarView = snackbar.getView();
+            snackBarView.setBackgroundColor(getResources().getColor(R.color.errorSnackBarColor));
+            TextView mSnackBarTextView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+            mSnackBarTextView.setTextAlignment(snackBarView.TEXT_ALIGNMENT_CENTER);
+            snackbar.show();
+        }
+
+        else if(name.length() == 0) {
+            mEditTextName.setBackground(getResources().getDrawable(R.drawable.error_phone_number));
+            Snackbar snackbar= Snackbar.make(mLayout,"Please provide your name",Snackbar.LENGTH_SHORT);
+            View snackBarView = snackbar.getView();
+            snackBarView.setBackgroundColor(getResources().getColor(R.color.errorSnackBarColor));
+            TextView mSnackBarTextView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+            mSnackBarTextView.setTextAlignment(snackBarView.TEXT_ALIGNMENT_CENTER);
+            snackbar.show();
+        }
+
+        else if(otp.length() != 6) {
+            mEditTextName.setBackground(getResources().getDrawable(R.drawable.error_phone_number));
+            Snackbar snackbar= Snackbar.make(mLayout,"Please enter valid OTP",Snackbar.LENGTH_SHORT);
+            View snackBarView = snackbar.getView();
+            snackBarView.setBackgroundColor(getResources().getColor(R.color.errorSnackBarColor));
+            TextView mSnackBarTextView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+            mSnackBarTextView.setTextAlignment(snackBarView.TEXT_ALIGNMENT_CENTER);
+            snackbar.show();
+        }
+
+        else {
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                    .putBoolean("isFirstRun", false).commit();
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                    .putString("name", name).commit();
+
+            Intent intent = new Intent(this, FirstActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
     }
 }
