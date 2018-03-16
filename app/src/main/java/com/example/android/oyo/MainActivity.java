@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/anagram.ttf");
         mOyo.setTypeface(custom_font);
-        mOyo.setLetterSpacing(-0.03f);
+        //mOyo.setLetterSpacing(-0.03f);
 
         if (isFirstRun) {
             //show start activity

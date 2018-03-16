@@ -339,6 +339,7 @@ public class FirstRunThirdActivity extends AppCompatActivity {
         String email = mEditTextEmail.getText().toString();
         String name = mEditTextName.getText().toString();
         String otp = mEditTextSixDigitCode.getText().toString();
+        String phn = mRegisteredPhoneNumber.getText().toString();
 
         boolean correctEmail = !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
 
@@ -379,6 +380,13 @@ public class FirstRunThirdActivity extends AppCompatActivity {
 
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                     .putString("name", name).commit();
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                    .putString("email", email).commit();
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                    .putString("phn", phn).commit();
+
 
             Intent intent = new Intent(this, FirstActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -48,6 +48,7 @@ public class FirstRunOneActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private FirstRunAdapter mAdapter;
+    private int[] mImages;
     private final LinkedList<String> mWordList = new LinkedList<>();
    // private final LinkedList<Integer> mWordImageList = new LinkedList<>();
     private TextView mTxt2;
@@ -65,10 +66,12 @@ public class FirstRunOneActivity extends AppCompatActivity {
         mWordList.addLast("Book Now Pay Later");
         mWordList.addLast("Clean and Hyegenic Rooms");
 
+        int[] mImages = {R.drawable.ic_wifi,R.drawable.ic_air_conditioner,R.drawable.ic_toaster,R.drawable.ic_rupee,R.drawable.ic_bed};
+
         // Create recycler view.
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new FirstRunAdapter(this, mWordList);
+        mAdapter = new FirstRunAdapter(this, mWordList, mImages);
         // Connect the adapter with the recycler view.
         mRecyclerView.setAdapter(mAdapter);
         // Give the recycler view a default layout manager.
@@ -187,12 +190,13 @@ public class FirstRunOneActivity extends AppCompatActivity {
         btn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                float h = mParentFirstRunOne.getHeight();
+                mGetStartedBtn.setTranslationY(0.83f*h);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-             float h = mParentFirstRunOne.getHeight();
+
 //                Log.d("partent Height",Float.toString(h));
                 Log.d("btn position",Float.toString(mGetStartedBtn.getY()));
                 Log.d("btn position",Float.toString(mGetStartedBtn.getX()));

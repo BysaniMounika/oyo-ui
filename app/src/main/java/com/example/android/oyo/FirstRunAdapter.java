@@ -19,6 +19,7 @@ public class FirstRunAdapter extends RecyclerView.Adapter<FirstRunAdapter.WordVi
     private final LinkedList<String> mWordList;
    // private final LinkedList<Integer> mWordImageList;
     private final LayoutInflater mInflater;
+    private final int[] mImages;
 
     class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -45,9 +46,10 @@ public class FirstRunAdapter extends RecyclerView.Adapter<FirstRunAdapter.WordVi
         }
     }
 
-    public FirstRunAdapter(Context context, LinkedList<String> wordList/*,LinkedList<Integer> imageList*/) {
+    public FirstRunAdapter(Context context, LinkedList<String> wordList,int[] mImages/*,LinkedList<Integer> imageList*/) {
         mInflater = LayoutInflater.from(context);
         this.mWordList = wordList;
+        this.mImages = mImages;
         //this.mWordImageList = imageList;
     }
 
@@ -77,9 +79,11 @@ public class FirstRunAdapter extends RecyclerView.Adapter<FirstRunAdapter.WordVi
     public void onBindViewHolder(WordViewHolder holder, int position) {
         // Retrieve the data for that position.
         String mCurrent = mWordList.get(position);
+        int mCurrentImage = mImages[position];
         //int mCurrentImage = mWordImageList.get(position);
         // Add the data to the view holder.
         holder.wordItemView.setText(mCurrent);
+        holder.wordItemView.setCompoundDrawablesWithIntrinsicBounds(mCurrentImage,0 , 0, 0);
       //  holder.wordImageView.setImageResource(mCurrentImage);
     }
 

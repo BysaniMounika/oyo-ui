@@ -20,6 +20,7 @@
         android:layout_centerInParent="true"
         android:textColor="#FFFFFF"
         android:fontFamily="monospace"
+        android:drawablePadding="10dp"
         />
 
 </RelativeLayout>

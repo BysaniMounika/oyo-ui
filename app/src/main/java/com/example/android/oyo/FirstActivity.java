@@ -1,52 +1,95 @@
 package com.example.android.oyo;
 
+
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.icu.util.Calendar;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class FirstActivity extends AppCompatActivity {
 
     Calendar c;
     int timeOfDay;
-    private TextView mTextViewName;
     String name;
     String welcomeMessage;
     Typeface custom_font;
-
+    private RecyclerView mRecyclerView;
+    private NewAdapter mAdapter;
+    private TextView mOyoTextView;
+    private TextView mwelcomeMessageTxtView;
+   public static BottomNavigationView bottomNavigationView;
+    Fragment myFragment;
+    Fragment selectedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+        selectedFragment = HomeFragment.newInstance();
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomnav);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-        c = Calendar.getInstance();
-        timeOfDay = c.get(Calendar.HOUR_OF_DAY);
-        name =  getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                .getString("name", null);
+        bottomNavigationView.setItemIconTintList(null);
 
-        mTextViewName = (TextView) findViewById(R.id.text_view_name);
+        bottomNavigationView.setOnNavigationItemSelectedListener
+                (new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        selectedFragment = HomeFragment.newInstance();
+                        switch (item.getItemId()) {
+                            case R.id.home_menu_item:
+                                selectedFragment = HomeFragment.newInstance();
+                                break;
+                            case R.id.saved_hotel_menu_item:
+                                selectedFragment = SavedHotelFragment.newInstance();
+                                break;
+                            case R.id.bookings_menu_item:
+                                selectedFragment = Bookings.newInstance();
+                                break;
+                            case R.id.you_menu_item:
+                                selectedFragment = YouFragment.newInstance();
+                                break;
+                        }
+                        myFragment = (Fragment) getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT");
+                        if(!(myFragment.getClass().equals(selectedFragment.getClass())) ) {
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            transaction.replace(R.id.frame_layout, selectedFragment,"CURRENT_FRAGMENT");
+                            transaction.commit();
+                        }
+                        return true;
+                    }
+                });
 
-        custom_font = Typeface.createFromAsset(getAssets(), "fonts/anagram.ttf");
-        mTextViewName.setTypeface(custom_font);
+        //Manually displaying the first fragment - one time only
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, HomeFragment.newInstance(),"CURRENT_FRAGMENT");
+        transaction.commit();
+    }
 
-        if(timeOfDay >= 0 && timeOfDay < 12){
-            welcomeMessage = "Good Morning";
-        }else if(timeOfDay >= 12 && timeOfDay < 16){
-            welcomeMessage = "Good Afternoon";
-        }else if(timeOfDay >= 16 && timeOfDay < 21){
-            welcomeMessage = "Good Evening";
-        }else if(timeOfDay >= 21 && timeOfDay < 24){
-            welcomeMessage = "Good Night";
+    @Override
+    public void onBackPressed() {
+        if(!((HomeFragment.newInstance()).getClass().equals(selectedFragment.getClass())) ) {
+            View view = FirstActivity.bottomNavigationView.findViewById(R.id.home_menu_item);
+            view.performClick();
         }
-        mTextViewName.setText(welcomeMessage+" "+name);
+        else {
+            finish();
+        }
 
+    }
 
-
-
-
-
+    public void showSearchActivity(View view) {
+        Intent intent = new Intent(this,SearchActivity1.class);
+        startActivity(intent);
     }
 }

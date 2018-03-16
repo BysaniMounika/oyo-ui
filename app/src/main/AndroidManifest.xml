@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android.oyo">
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/oyo_icon"
+        android:label="oyo"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/oyo_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <activity
             android:name=".MainActivity"
             android:theme="@style/noAnimTheme">
@@ -35,7 +39,23 @@
             android:screenOrientation="portrait"
             android:theme="@style/FirstRumTheme"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".FirstActivity"></activity>
+        <activity
+            android:name=".FirstActivity"
+            android:theme="@style/FirstRumTheme" />
+        <activity
+            android:name=".SearchActivity1"
+            android:theme="@style/FirstRumTheme" />
+        <activity
+            android:name=".SetDatesActivity"
+            android:theme="@style/FirstRumTheme" />
+        <activity
+            android:name=".HotelsActivity"
+            android:theme="@style/FirstRumTheme" />
+        <activity
+            android:name=".HotelActivity"
+            android:theme="@style/FirstRumTheme" />
+        <activity android:name=".HotelActivity_1"
+            android:theme="@style/FirstRumTheme1"></activity>
     </application>
 
 </manifest>
